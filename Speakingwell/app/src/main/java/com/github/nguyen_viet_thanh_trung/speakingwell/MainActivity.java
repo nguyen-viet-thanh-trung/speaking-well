@@ -43,12 +43,7 @@ public class MainActivity extends Activity {
     }
 
     private void promptSpeechInput() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        //Considers input in free form English-US
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
-        //Text prompt to show to the user when asking them to speak
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speech_prompt));
+        Intent intent = new Intent(this, SpeechRecognitionActivity.class);
         try {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException e) {
@@ -60,14 +55,26 @@ public class MainActivity extends Activity {
      * Receiving speech input
      */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
-                if (resultCode == RESULT_OK && null != data) {
-                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    txtSpeechInput.setText(result.get(0));
+                switch (resultCode) {
+                    case RESULT_OK: {
+                        if (null != data) {
+                            String result = data.getStringExtra(SpeechRecognitionActivity.SPEECH_RECOGNITION_EXTRA_RESULT);
+                            txtSpeechInput.setText(result);
+                        }
+                        break;
+                    }
+                    case  RESULT_CANCELED:
+                        if (null != data) {
+                            String error = data.getStringExtra(SpeechRecognitionActivity.SPEECH_RECOGNITION_EXTRA_ERROR);
+                            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                        }
+                        break;
                 }
+                break;
             }
         }
     }
