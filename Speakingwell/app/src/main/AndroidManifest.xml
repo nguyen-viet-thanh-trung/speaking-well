@@ -3,6 +3,7 @@
     package="com.github.nguyen_viet_thanh_trung.speakingwell" >
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MICROPHONE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="18" />
@@ -20,6 +21,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".SpeechRecognitionActivity">
         </activity>
     </application>
 
