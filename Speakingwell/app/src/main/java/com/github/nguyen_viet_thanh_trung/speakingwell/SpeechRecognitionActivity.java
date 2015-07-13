@@ -7,6 +7,8 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
@@ -16,7 +18,8 @@ import java.util.ArrayList;
 public class SpeechRecognitionActivity extends Activity implements RecognitionListener {
     private SpeechRecognizer myRecognizer = null;
     private Intent intent;
-    private  final  String TAG = "VoiceRecognitionActivity";
+    private  final  String TAG = "VoiceRecognition";
+    private ImageButton btnStop; // press this button to finish your speak
     public static final String SPEECH_RECOGNITION_EXTRA_RESULT = "com.github.nguyen_viet_thanh_trung.speakingwell.result";
     public static final String SPEECH_RECOGNITION_EXTRA_ERROR = "com.github.nguyen_viet_thanh_trung.speakingwell.error";
 
@@ -34,8 +37,15 @@ public class SpeechRecognitionActivity extends Activity implements RecognitionLi
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US");
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
-
         myRecognizer.startListening(intent);
+
+        btnStop = (ImageButton) findViewById(R.id.btnStop);
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myRecognizer.stopListening();
+            }
+        });
     }
 
     @Override
