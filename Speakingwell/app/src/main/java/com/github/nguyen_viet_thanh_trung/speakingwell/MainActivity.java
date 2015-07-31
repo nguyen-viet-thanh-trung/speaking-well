@@ -70,6 +70,7 @@ public class MainActivity extends Activity {
                     case  RESULT_CANCELED:
                         if (null != data) {
                             String error = data.getStringExtra(SpeechRecognitionActivity.SPEECH_RECOGNITION_EXTRA_ERROR);
+                            txtSpeechInput.setText(R.string.speech_prompt);
                             Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
                         }
                         break;
